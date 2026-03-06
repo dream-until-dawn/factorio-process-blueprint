@@ -1,4 +1,4 @@
-package models
+package rawDataModels
 
 // =============================
 // 建筑主体

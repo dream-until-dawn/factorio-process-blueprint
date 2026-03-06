@@ -263,7 +263,7 @@ class StructAnalyzer:
 
         lines = []
 
-        lines.append("package models\n")
+        lines.append("package rawDataModels\n")
 
         order = self.sort_structs()
 

@@ -1,4 +1,4 @@
-package models
+package rawDataModels
 
 // Lab 研究中心
 type Lab struct {

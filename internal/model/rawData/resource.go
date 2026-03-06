@@ -1,4 +1,4 @@
-package models
+package rawDataModels
 
 // 资源掉落
 type ResourceResult struct {

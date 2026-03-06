@@ -1,4 +1,4 @@
-package models
+package rawDataModels
 
 // 机械臂
 type Inserter struct {

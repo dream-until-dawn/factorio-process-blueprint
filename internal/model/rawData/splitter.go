@@ -1,4 +1,4 @@
-package models
+package rawDataModels
 
 // 电路信号
 type Signal struct {

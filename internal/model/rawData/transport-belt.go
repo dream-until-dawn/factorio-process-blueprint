@@ -1,4 +1,4 @@
-package models
+package rawDataModels
 
 // TransportBelt 传送带原型
 type TransportBelt struct {

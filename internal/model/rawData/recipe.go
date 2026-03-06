@@ -1,4 +1,4 @@
-package models
+package rawDataModels
 
 // RecipeData 表示游戏中的一个配方定义（核心生产数据）
 type RecipeData struct {

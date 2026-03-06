@@ -1,4 +1,4 @@
-package models
+package rawDataModels
 
 // 物品放置为地形瓦片时的配置
 type PlaceAsTile struct {

@@ -1,4 +1,4 @@
-package models
+package rawDataModels
 
 // 管道原型（pipe prototype）
 type Pipe struct {

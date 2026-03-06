@@ -1,4 +1,4 @@
-package models
+package rawDataModels
 
 // =============================
 // 基础结构

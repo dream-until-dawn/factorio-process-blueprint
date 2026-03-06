@@ -1,4 +1,4 @@
-package models
+package rawDataModels
 
 // Roboport 机器人网络基站（物流机器人/建设机器人停靠与充电中心）
 type Roboport struct {

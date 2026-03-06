@@ -1,4 +1,4 @@
-package models
+package rawDataModels
 
 type Unit struct {
 	Count        *float64        `json:"count,omitempty"`

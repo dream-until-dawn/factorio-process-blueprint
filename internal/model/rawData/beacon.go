@@ -1,4 +1,4 @@
-package models
+package rawDataModels
 
 // Beacon 插件塔
 // 用于向周围机器传递模块效果

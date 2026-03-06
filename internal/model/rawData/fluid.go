@@ -1,4 +1,4 @@
-package models
+package rawDataModels
 
 // 流体定义（Fluid Prototype）
 type Fluid struct {

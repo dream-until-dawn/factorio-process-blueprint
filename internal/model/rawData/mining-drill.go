@@ -1,4 +1,4 @@
-package models
+package rawDataModels
 
 // 输入流体箱
 type InputFluidBox struct {

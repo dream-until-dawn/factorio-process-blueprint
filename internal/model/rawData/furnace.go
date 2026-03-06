@@ -1,4 +1,4 @@
-package models
+package rawDataModels
 
 // =============================
 // 效果接收器
