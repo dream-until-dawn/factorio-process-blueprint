@@ -1,0 +1,4 @@
+environment: "dev"
+
+# 1-error 2-suc 3-warn 4-info 5-debug
+log_level: "debug"
