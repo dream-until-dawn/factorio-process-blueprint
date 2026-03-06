@@ -4,10 +4,9 @@ package rawDataModels
 type Inserter struct {
 
 	// ===== 基础信息 =====
-	Type          string   `json:"type"`                     // 实体类型
-	Name          string   `json:"name"`                     // 名称
-	LocalisedName []string `json:"localised_name,omitempty"` // 本地化名称（多语言显示）
-	Icon          string   `json:"icon"`                     // 图标
+	Type string `json:"type"` // 实体类型
+	Name string `json:"name"` // 名称
+	Icon string `json:"icon"` // 图标
 	// ===== 碰撞 =====
 	CollisionBox [][]float64 `json:"collision_box"` // 碰撞盒
 	SelectionBox [][]float64 `json:"selection_box"` // 选择盒

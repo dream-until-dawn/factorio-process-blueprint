@@ -7,13 +7,12 @@ package rawDataModels
 // Container 游戏实体定义（精简版）
 // 用于AI工厂规划与蓝图生成
 type Container struct {
-	Type          string   `json:"type"`                     // 实体类型（container / furnace / assembler 等）
-	Name          string   `json:"name"`                     // 实体名称
-	LocalisedName []string `json:"localised_name,omitempty"` // 本地化名称
-	Icon          *string  `json:"icon,omitempty"`           // 图标
-	Icons         []Icons  `json:"icons,omitempty"`          // 多图标
-	Flags         []string `json:"flags,omitempty"`          // 实体标志
-	Hidden        *bool    `json:"hidden,omitempty"`         // 是否隐藏
+	Type   string   `json:"type"`             // 实体类型（container / furnace / assembler 等）
+	Name   string   `json:"name"`             // 实体名称
+	Icon   *string  `json:"icon,omitempty"`   // 图标
+	Icons  []Icons  `json:"icons,omitempty"`  // 多图标
+	Flags  []string `json:"flags,omitempty"`  // 实体标志
+	Hidden *bool    `json:"hidden,omitempty"` // 是否隐藏
 
 	CollisionBox                [][]float64 `json:"collision_box,omitempty"`                  // 碰撞盒（影响建筑摆放）
 	SelectionBox                [][]float64 `json:"selection_box,omitempty"`                  // 选择框

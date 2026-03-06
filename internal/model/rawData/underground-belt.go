@@ -27,9 +27,8 @@ type UndergroundBelt struct {
 	MaxDistance float64 `json:"max_distance"` // 地下最大连接距离
 
 	// ===== 渲染资源 =====
-	Structure         map[string]Sprite `json:"structure,omitempty"`           // 建筑结构贴图
-	UndergroundSprite Sprite            `json:"underground_sprite,omitempty"`  // 地下入口贴图
-	RemoveBeltsSprite *Sprite           `json:"remove_belts_sprite,omitempty"` // 移除提示贴图
+	Structure         map[string]Sprite `json:"structure,omitempty"`          // 建筑结构贴图
+	UndergroundSprite Sprite            `json:"underground_sprite,omitempty"` // 地下入口贴图
 
 	// ===== 碰撞层 =====
 	UndergroundCollisionMask *CollisionMask `json:"underground_collision_mask,omitempty"`

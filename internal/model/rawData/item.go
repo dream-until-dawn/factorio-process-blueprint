@@ -25,17 +25,12 @@ type Item struct {
 	FuelValue                     *string      `json:"fuel_value,omitempty"`                       // 燃料能量值（例如 "8MJ"）
 	FuelCategory                  *string      `json:"fuel_category,omitempty"`                    // 燃料类别
 	Weight                        *float64     `json:"weight,omitempty"`                           // 物品重量（物流/火箭等系统使用）
-	DarkBackgroundIcon            *string      `json:"dark_background_icon,omitempty"`             // 深色背景版本图标
-	Pictures                      *interface{} `json:"pictures,omitempty"`                         // 图片定义（可能为单个或数组）
-	RandomTintColor               []float64    `json:"random_tint_color,omitempty"`                // 随机染色颜色（RGBA）
 	IngredientToWeightCoefficient *float64     `json:"ingredient_to_weight_coefficient,omitempty"` // 原料到重量的换算系数
 	PlaceResult                   *string      `json:"place_result,omitempty"`                     // 放置后生成的实体名称
-	IconSize                      *float64     `json:"icon_size,omitempty"`                        // 图标尺寸
 	Flags                         []string     `json:"flags,omitempty"`                            // 标志位（影响游戏行为）
 	AutoRecycle                   *bool        `json:"auto_recycle,omitempty"`                     // 是否自动回收
 	FuelAccelerationMultiplier    *float64     `json:"fuel_acceleration_multiplier,omitempty"`     // 燃料加速倍率
 	FuelTopSpeedMultiplier        *float64     `json:"fuel_top_speed_multiplier,omitempty"`        // 燃料最高速度倍率
-	Icons                         []Icons      `json:"icons,omitempty"`                            // 多层图标定义
 	BurntResult                   *string      `json:"burnt_result,omitempty"`                     // 燃烧后生成的物品
 	PlaceAsEquipmentResult        *string      `json:"place_as_equipment_result,omitempty"`        // 放置为装备时生成的装备实体
 	DefaultImportLocation         *string      `json:"default_import_location,omitempty"`          // 默认导入位置（物流系统）

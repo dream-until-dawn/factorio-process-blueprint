@@ -34,7 +34,6 @@ type Technology struct {
 	Name                     string           `json:"name"`
 	LocalisedName            *interface{}     `json:"localised_name,omitempty"` // 本地化名称（多语言字符串数组）
 	Icon                     *string          `json:"icon,omitempty"`
-	IconSize                 *float64         `json:"icon_size,omitempty"`
 	Effects                  []Effects        `json:"effects,omitempty"`
 	ResearchTrigger          *ResearchTrigger `json:"research_trigger,omitempty"`
 	Essential                *bool            `json:"essential,omitempty"`

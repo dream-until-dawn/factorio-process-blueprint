@@ -1,13 +1,11 @@
 package main
 
 import (
-	"fmt"
-	"processBlueprint/internal/config"
+	"processBlueprint/internal/parser"
 )
 
 func main() {
-	cfg := config.Get()
-	fmt.Println(cfg.Environment)
+	parser.DisposeRawData()
 
 	// c := make(chan struct{})
 	// <-c

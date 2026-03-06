@@ -3,10 +3,9 @@ package rawDataModels
 // Lab 研究中心
 type Lab struct {
 	// ===== 基础信息 =====
-	Type          string       `json:"type"`                     // 实体类型
-	Name          string       `json:"name"`                     // 实体名称
-	LocalisedName *interface{} `json:"localised_name,omitempty"` // 本地化名称（支持多种格式）
-	Icon          string       `json:"icon"`                     // 图标
+	Type string `json:"type"` // 实体类型
+	Name string `json:"name"` // 实体名称
+	Icon string `json:"icon"` // 图标
 	// ===== 碰撞 =====
 	CollisionBox [][]float64 `json:"collision_box"` // 碰撞盒
 	SelectionBox [][]float64 `json:"selection_box"` // 选择盒

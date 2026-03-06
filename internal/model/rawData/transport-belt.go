@@ -11,8 +11,7 @@ type TransportBelt struct {
 	CollisionBox Box `json:"collision_box"` // 碰撞盒
 	SelectionBox Box `json:"selection_box"` // 选择盒
 
-	Speed                     float64 `json:"speed"`                                 // 传送带速度 Factorio单位：tile/tick
-	AnimationSpeedCoefficient float64 `json:"animation_speed_coefficient,omitempty"` // 动画速度系数
+	Speed float64 `json:"speed"` // 传送带速度 Factorio单位：tile/tick
 
 	FastReplaceableGroup   string `json:"fast_replaceable_group"`   // 快速替换组
 	NextUpgrade            string `json:"next_upgrade,omitempty"`   // 下一个升级

@@ -1,15 +1,19 @@
 package rawDataModels
 
-// RecipeData 表示游戏中的一个配方定义（核心生产数据）
-type RecipeData struct {
+import (
+	"encoding/json"
+	"fmt"
+)
+
+// Recipe 表示游戏中的一个配方定义（核心生产数据）
+type Recipe struct {
 	Type                            string              `json:"type"`                                          // 原型类型，通常为 "recipe"
 	Name                            string              `json:"name"`                                          // 配方唯一ID，例如 electronic-circuit
 	LocalisedName                   *interface{}        `json:"localised_name,omitempty"`                      // 本地化名称（多语言字符串数组）
 	Icon                            *string             `json:"icon,omitempty"`                                // 单图标路径
-	IconSize                        *float64            `json:"icon_size,omitempty"`                           // 图标尺寸
 	Hidden                          *bool               `json:"hidden,omitempty"`                              // 是否隐藏（不会在玩家UI中显示）
-	Ingredients                     *Ingredients        `json:"ingredients,omitempty"`                         // 输入材料
-	Results                         *Results            `json:"results,omitempty"`                             // 输出产品
+	Ingredients                     *IngredientsList    `json:"ingredients,omitempty"`                         // 输入材料
+	Results                         *ResultsList        `json:"results,omitempty"`                             // 输出产品
 	Subgroup                        *string             `json:"subgroup,omitempty"`                            // UI子分类
 	Category                        *string             `json:"category,omitempty"`                            // 制造类别，例如 crafting / smelting / chemistry
 	Order                           *string             `json:"order,omitempty"`                               // UI排序权重
@@ -37,18 +41,48 @@ type RecipeData struct {
 
 // Ingredients 表示配方输入材料
 type Ingredients struct {
-	Type               *string  `json:"type,omitempty"`                // 类型：item 或 fluid
-	Name               *string  `json:"name,omitempty"`                // 材料名称
+	Type               string   `json:"type,omitempty"`                // 类型：item 或 fluid
+	Name               string   `json:"name,omitempty"`                // 材料名称
 	Amount             *float64 `json:"amount,omitempty"`              // 消耗数量
 	FluidboxIndex      *float64 `json:"fluidbox_index,omitempty"`      // 液体输入口索引
 	IgnoredByStats     *float64 `json:"ignored_by_stats,omitempty"`    // 不计入生产统计
 	FluidboxMultiplier *float64 `json:"fluidbox_multiplier,omitempty"` // 液体输入倍率
 }
 
+// IngredientsList 自定义类型处理单个或多个 Ingredients
+type IngredientsList struct {
+	Items []Ingredients
+}
+
+// 实现 json.Unmarshaler 接口
+func (il *IngredientsList) UnmarshalJSON(data []byte) error {
+	// 尝试解析为单个对象
+	var single Ingredients
+	if err := json.Unmarshal(data, &single); err == nil {
+		il.Items = []Ingredients{single}
+		return nil
+	}
+	// 尝试解析为数组
+	var multiple []Ingredients
+	if err := json.Unmarshal(data, &multiple); err == nil {
+		il.Items = multiple
+		return nil
+	}
+	return fmt.Errorf("ingredients解析失败")
+}
+
+// 实现 json.Marshaler 接口（如果需要序列化）
+func (il IngredientsList) MarshalJSON() ([]byte, error) {
+	if len(il.Items) == 1 {
+		return json.Marshal(il.Items[0])
+	}
+	return json.Marshal(il.Items)
+}
+
 // Results 表示配方输出产品
 type Results struct {
-	Type                       *string  `json:"type,omitempty"`                           // 类型 item 或 fluid
-	Name                       *string  `json:"name,omitempty"`                           // 产物名称
+	Type                       string   `json:"type,omitempty"`                           // 类型 item 或 fluid
+	Name                       string   `json:"name,omitempty"`                           // 产物名称
 	Amount                     *float64 `json:"amount,omitempty"`                         // 产出数量
 	FluidboxIndex              *float64 `json:"fluidbox_index,omitempty"`                 // 液体输出口索引
 	IgnoredByStats             *float64 `json:"ignored_by_stats,omitempty"`               // 不计入生产统计
@@ -58,4 +92,34 @@ type Results struct {
 	Temperature                *float64 `json:"temperature,omitempty"`                    // 输出液体温度
 	ShowDetailsInRecipeTooltip *bool    `json:"show_details_in_recipe_tooltip,omitempty"` // tooltip显示详细信息
 	ExtraCountFraction         *float64 `json:"extra_count_fraction,omitempty"`           // 额外数量小数部分
+}
+
+// ResultsList 自定义类型处理单个或多个 Ingredients
+type ResultsList struct {
+	Items []Results
+}
+
+// 实现 json.Unmarshaler 接口
+func (il *ResultsList) UnmarshalJSON(data []byte) error {
+	// 尝试解析为单个对象
+	var single Results
+	if err := json.Unmarshal(data, &single); err == nil {
+		il.Items = []Results{single}
+		return nil
+	}
+	// 尝试解析为数组
+	var multiple []Results
+	if err := json.Unmarshal(data, &multiple); err == nil {
+		il.Items = multiple
+		return nil
+	}
+	return fmt.Errorf("results解析失败")
+}
+
+// 实现 json.Marshaler 接口（如果需要序列化）
+func (il ResultsList) MarshalJSON() ([]byte, error) {
+	if len(il.Items) == 1 {
+		return json.Marshal(il.Items[0])
+	}
+	return json.Marshal(il.Items)
 }

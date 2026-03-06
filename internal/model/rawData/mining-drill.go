@@ -1,5 +1,10 @@
 package rawDataModels
 
+import (
+	"encoding/json"
+	"fmt"
+)
+
 // 输入流体箱
 type InputFluidBox struct {
 	Volume          float64          `json:"volume"`           // 最大容量
@@ -43,16 +48,51 @@ type MiningDrill struct {
 	EnergySource EnergySource `json:"energy_source"` // 能源系统
 	EnergyUsage  string       `json:"energy_usage"`  // 能耗（如 90kW）
 
-	ModuleSlots *float64 `json:"module_slots,omitempty"` // 模块槽数量
+	ModuleSlots    *float64            `json:"module_slots,omitempty"`    // 模块槽数量
+	AllowedEffects *AllowedEffectsList `json:"allowed_effects,omitempty"` // 可使用模块效果
 
-	FastReplaceableGroup string `json:"fast_replaceable_group"` // 快速替换组
-
-	AllowedEffects []string `json:"allowed_effects,omitempty"` // 可使用模块效果
-
-	SurfaceConditions []SurfaceConditions `json:"surface_conditions,omitempty"` // 地表条件限制
+	FastReplaceableGroup string              `json:"fast_replaceable_group"`       // 快速替换组
+	SurfaceConditions    []SurfaceConditions `json:"surface_conditions,omitempty"` // 地表条件限制
 
 	RadiusVisualisationPicture *RadiusVisualisationPicture `json:"radius_visualisation_picture,omitempty"` // 挖矿范围显示
 
 	ResourceDrainRatePercent *float64 `json:"resource_drain_rate_percent,omitempty"` // 资源消耗比例
 	DropsFullBeltStacks      *bool    `json:"drops_full_belt_stacks,omitempty"`      // 是否掉落整带物品
+}
+
+// AllowedEffectsList 可以解析为 []string 或空对象 {}
+type AllowedEffectsList []string
+
+// 实现 json.Unmarshaler 接口
+func (fs *AllowedEffectsList) UnmarshalJSON(data []byte) error {
+	// 检查是否是空对象 {}
+	if string(data) == "{}" {
+		*fs = []string{} // 返回空切片
+		return nil
+	}
+
+	// 尝试解析为字符串数组
+	var strSlice []string
+	if err := json.Unmarshal(data, &strSlice); err == nil {
+		*fs = strSlice
+		return nil
+	}
+
+	// 尝试解析为单个字符串
+	var singleStr string
+	if err := json.Unmarshal(data, &singleStr); err == nil {
+		*fs = []string{singleStr}
+		return nil
+	}
+
+	return fmt.Errorf("invalid format: expected []string, string, or {}")
+}
+
+// 实现 json.Marshaler 接口（如果需要序列化）
+func (a AllowedEffectsList) MarshalJSON() ([]byte, error) {
+	// 定义一个新类型，避免递归调用
+	type Alias AllowedEffectsList
+
+	// 将当前值转换为别名类型，这样就不会调用 MarshalJSON
+	return json.Marshal(Alias(a))
 }

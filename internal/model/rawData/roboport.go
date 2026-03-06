@@ -2,11 +2,10 @@ package rawDataModels
 
 // Roboport 机器人网络基站（物流机器人/建设机器人停靠与充电中心）
 type Roboport struct {
-	Type          *string      `json:"type,omitempty"`           // 原型类型（通常为 "roboport"）
-	Name          *string      `json:"name,omitempty"`           // 实体名称
-	LocalisedName *interface{} `json:"localised_name,omitempty"` // 本地化名称（多语言字符串数组）
-	Icon          *string      `json:"icon,omitempty"`           // 图标路径（仅前端展示用）
-	Flags         []string     `json:"flags,omitempty"`          // 实体标志（placeable-player / player-creation 等）
+	Type  *string  `json:"type,omitempty"`  // 原型类型（通常为 "roboport"）
+	Name  *string  `json:"name,omitempty"`  // 实体名称
+	Icon  *string  `json:"icon,omitempty"`  // 图标路径（仅前端展示用）
+	Flags []string `json:"flags,omitempty"` // 实体标志（placeable-player / player-creation 等）
 
 	FastReplaceableGroup *string `json:"fast_replaceable_group,omitempty"` // 可快速替换分组
 

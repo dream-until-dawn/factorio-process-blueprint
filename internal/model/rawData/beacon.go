@@ -4,10 +4,9 @@ package rawDataModels
 // 用于向周围机器传递模块效果
 type Beacon struct {
 	// ===== 基础信息 =====
-	Type          string       `json:"type"`                     // 实体类型
-	Name          string       `json:"name"`                     // 实体名称
-	Icon          string       `json:"icon"`                     // UI图标
-	LocalisedName *interface{} `json:"localised_name,omitempty"` // 本地化名称（多语言字符串数组）
+	Type string `json:"type"` // 实体类型
+	Name string `json:"name"` // 实体名称
+	Icon string `json:"icon"` // UI图标
 	// ===== 占地 =====
 	CollisionBox [][]float64 `json:"collision_box"` // 碰撞盒
 	SelectionBox [][]float64 `json:"selection_box"` // 选择盒

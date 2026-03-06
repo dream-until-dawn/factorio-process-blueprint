@@ -13,10 +13,9 @@ type EffectReceiver struct {
 
 // Furnace 熔炉类建筑
 type Furnace struct {
-	Type          string   `json:"type"`                     // 原型类型
-	Name          string   `json:"name"`                     // 名称
-	LocalisedName []string `json:"localised_name,omitempty"` // 本地化名称（多语言显示）
-	Icon          string   `json:"icon"`                     // 图标
+	Type string `json:"type"` // 原型类型
+	Name string `json:"name"` // 名称
+	Icon string `json:"icon"` // 图标
 
 	Flags        []string `json:"flags"`         // 标记
 	CollisionBox Box      `json:"collision_box"` // 碰撞盒

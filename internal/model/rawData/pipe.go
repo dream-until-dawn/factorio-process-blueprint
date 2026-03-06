@@ -2,10 +2,9 @@ package rawDataModels
 
 // 管道原型（pipe prototype）
 type Pipe struct {
-	Type          string   `json:"type"`                     // 原型类型（pipe）
-	Name          string   `json:"name"`                     // 管道ID
-	LocalisedName []string `json:"localised_name,omitempty"` // 本地化名称（多语言显示）
-	Icon          *string  `json:"icon,omitempty"`           // 图标
+	Type string  `json:"type"`           // 原型类型（pipe）
+	Name string  `json:"name"`           // 管道ID
+	Icon *string `json:"icon,omitempty"` // 图标
 
 	Flags []string `json:"flags,omitempty"` // 实体标志
 
