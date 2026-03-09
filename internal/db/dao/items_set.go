@@ -1,7 +1,9 @@
 package dao
 
 import (
+	"fmt"
 	rawDataModels "processBlueprint/internal/model/rawData"
+	"processBlueprint/internal/utils"
 )
 
 func (d *DBDAO) InsertItemsTable(items map[string]rawDataModels.Item) error {
@@ -51,8 +53,11 @@ func (d *DBDAO) InsertItemsTable(items map[string]rawDataModels.Item) error {
 
 		// 处理指针字段
 		icon := ""
+		name_zh := ""
 		if item.Icon != nil {
-			icon = *item.Icon
+			imgName := utils.ExtractNameFromPath(*item.Icon)
+			icon = fmt.Sprintf("https://wiki.factorio.com/images/thumb/%s.png/32px-%s.png", imgName, imgName)
+			name_zh = fmt.Sprintf("https://wiki.factorio.com/%s/zh", imgName)
 		}
 
 		hidden := 0
@@ -112,7 +117,7 @@ func (d *DBDAO) InsertItemsTable(items map[string]rawDataModels.Item) error {
 		_, err = stmt.Exec(
 			item.Name,
 			icon,
-			"", // name_zh 先留空（后面可能由翻译表填充）
+			name_zh,
 			hidden,
 			int(item.StackSize),
 			weight,
