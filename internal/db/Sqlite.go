@@ -72,8 +72,52 @@ func (s *SQLiteDB) creationItemsTable() error {
 	return err
 }
 
+// 生产建筑表
+func (s *SQLiteDB) creationMachinesTable() error {
+	const tableTpl = `
+		CREATE TABLE IF NOT EXISTS machines (
+			name TEXT PRIMARY KEY
+		);
+	`
+	stmt := fmt.Sprintf(tableTpl)
+	_, err := s.DB.Exec(stmt)
+	return err
+}
+
+// 配方表
+func (s *SQLiteDB) creationRecipesTable() error {
+	const tableTpl = `
+		CREATE TABLE IF NOT EXISTS recipes (
+			name TEXT PRIMARY KEY,
+			Icon TEXT NOT NULL,
+			name_zh TEXT DEFAULT '',
+			hidden INTEGER DEFAULT 0 CHECK (hidden IN (-1, 0, 1)),
+			ingredients TEXT DEFAULT '',
+			results TEXT DEFAULT '',
+			category TEXT DEFAULT '',
+			energy_required REAL DEFAULT 0 CHECK (energy_required >= 0),
+			allow_productivity INTEGER DEFAULT 0 CHECK (allow_productivity IN (-1, 0, 1)),
+			allow_quality INTEGER DEFAULT 0 CHECK (allow_quality IN (-1, 0, 1)),
+			allow_decomposition INTEGER DEFAULT 0 CHECK (allow_decomposition IN (-1, 0, 1)),
+			reset_freshness_on_craft INTEGER DEFAULT 0 CHECK (reset_freshness_on_craft IN (-1, 0, 1)),
+			preserve_products_in_machine_output INTEGER DEFAULT 0 CHECK (preserve_products_in_machine_output IN (-1, 0, 1)),
+			auto_recycle INTEGER DEFAULT 0 CHECK (auto_recycle IN (-1, 0, 1)),
+			surface_conditions INTEGER DEFAULT 0
+		);
+	`
+	stmt := fmt.Sprintf(tableTpl)
+	_, err := s.DB.Exec(stmt)
+	return err
+}
+
 func (s *SQLiteDB) migrate() error {
 	if err := s.creationItemsTable(); err != nil {
+		return err
+	}
+	// if err := s.creationMachinesTable(); err != nil {
+	// 	return err
+	// }
+	if err := s.creationRecipesTable(); err != nil {
 		return err
 	}
 	return nil

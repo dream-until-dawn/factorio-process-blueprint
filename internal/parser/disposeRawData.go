@@ -7,7 +7,6 @@ import (
 
 	"processBlueprint/internal/db/dao"
 	"processBlueprint/internal/model"
-	"processBlueprint/internal/utils"
 )
 
 func readJSONFile(filename string) (*model.RawData, error) {
@@ -36,11 +35,23 @@ func DisposeRawData() {
 		return
 	}
 	fmt.Printf("解析成功!\n")
-	// 处理物品表
-	utils.SaveToJSON("env/Item.json", rawData.Item, true)
-	dao.InsertItemsTable(rawData.Item)
 
+	// 处理物品表
+	// utils.SaveToJSON("env/Item.json", rawData.Item, true)
+	// err = dao.InsertItemsTable(rawData.Item)
+	// if err != nil {
+	// 	fmt.Printf("处理物品表错误: %v\n", err)
+	// 	return
+	// }
+
+	// 处理配方表
 	// utils.SaveToJSON("env/Recipe.json", rawData.Recipe, true)
+	err = dao.InsertRecipeTable(rawData.Recipe)
+	if err != nil {
+		fmt.Printf("处理配方表错误: %v\n", err)
+		return
+	}
+
 	// utils.SaveToJSON("env/Technology.json", rawData.Technology, true)
 	// utils.SaveToJSON("env/Resource.json", rawData.Resource, true)
 	// utils.SaveToJSON("env/Fluid.json", rawData.Fluid, true)

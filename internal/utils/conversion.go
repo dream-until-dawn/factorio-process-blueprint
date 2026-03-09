@@ -50,3 +50,27 @@ func Capitalize(s string) string {
 	r[0] = unicode.ToUpper(r[0])
 	return string(r)
 }
+
+// 位掩码字符串转int
+func SurfaceMask(s string) int {
+	mask := 0
+	for i, c := range s {
+		if c == '1' {
+			mask |= 1 << i
+		}
+	}
+	return mask
+}
+
+// int转位掩码字符串
+func MaskToString(mask int) string {
+	b := make([]byte, 6)
+	for i := 0; i < 6; i++ {
+		if mask&(1<<i) != 0 {
+			b[i] = '1'
+		} else {
+			b[i] = '0'
+		}
+	}
+	return string(b)
+}
