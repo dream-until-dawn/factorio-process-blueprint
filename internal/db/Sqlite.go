@@ -16,7 +16,7 @@ type SQLiteDB struct {
 var instance *SQLiteDB
 var once sync.Once
 
-// Init initializes the SQLite database
+// 初始化
 func Init(dbPath string) {
 	once.Do(func() {
 		db, err := sql.Open("sqlite", dbPath)
@@ -30,12 +30,6 @@ func Init(dbPath string) {
 			log.Printf("设置WAL模式失败: %v", err)
 		}
 
-		// 启用外键
-		_, err = db.Exec("PRAGMA foreign_keys = ON;")
-		if err != nil {
-			log.Printf("启用外键失败: %v", err)
-		}
-
 		instance = &SQLiteDB{DB: db}
 
 		if err := instance.migrate(); err != nil {
@@ -44,21 +38,33 @@ func Init(dbPath string) {
 	})
 }
 
-// Get returns the SQLite singleton instance
+// 取得数据库实例
 func Get() *SQLiteDB {
-	Init("db/data.db")
+	Init("db/factorio.db")
 	if instance == nil {
 		log.Fatal("SQLite还未初始化")
 	}
 	return instance
 }
 
-func (s *SQLiteDB) creationTechnologyTable() error {
+// 物品表
+func (s *SQLiteDB) creationItemsTable() error {
 	const tableTpl = `
-		CREATE TABLE IF NOT EXISTS technology (
-			classify TEXT NOT NULL,
-			name TEXT PRIMARY KEY,
-			description TEXT NOT NULL
+		CREATE TABLE IF NOT EXISTS items (
+			name TEXT PRIMARY KEY, 
+			Icon TEXT NOT NULL,
+			name_zh TEXT DEFAULT '',
+			hidden INTEGER DEFAULT 0 CHECK (hidden IN (-1, 0, 1)),
+			stack_size INTEGER DEFAULT 1 CHECK (stack_size > 0),
+			weight INTEGER DEFAULT -1 CHECK (weight >= -1),
+			subgroup TEXT DEFAULT '',
+			place_result TEXT DEFAULT '',
+			item_order TEXT DEFAULT '',
+			fuel_category TEXT DEFAULT '',
+			fuel_value TEXT DEFAULT '',
+			burnt_result TEXT DEFAULT '',
+			spoil_ticks INTEGER DEFAULT 0 CHECK (spoil_ticks >= 0),
+			spoil_result TEXT DEFAULT ''
 		);
 	`
 	stmt := fmt.Sprintf(tableTpl)
@@ -66,84 +72,8 @@ func (s *SQLiteDB) creationTechnologyTable() error {
 	return err
 }
 
-func (s *SQLiteDB) createTechnologyItemTable() error {
-	const createTableSQL = `
-		CREATE TABLE IF NOT EXISTS technology_item (
-			name TEXT PRIMARY KEY,
-			classify TEXT,
-			technology TEXT,
-			icon TEXT,
-			description TEXT,
-			tier TEXT,
-			cost TEXT,
-			effects_unlocks TEXT,
-			prerequisites TEXT,
-			draw_weight TEXT,
-			empire TEXT,
-			dlc TEXT,
-			FOREIGN KEY (technology) REFERENCES technology(name)
-		) WITHOUT ROWID;
-	`
-	_, err := s.DB.Exec(createTableSQL)
-	return err
-}
-func (s *SQLiteDB) createTechnologyDependencyTable() error {
-	const createTableSQL = `
-		CREATE TABLE IF NOT EXISTS technology_dependency (
-			parent_name TEXT NOT NULL,
-			child_name  TEXT NOT NULL,
-			PRIMARY KEY (parent_name, child_name),
-			FOREIGN KEY (parent_name) REFERENCES technology_item(name),
-			FOREIGN KEY (child_name) REFERENCES technology_item(name)
-		) WITHOUT ROWID;
-	`
-	_, err := s.DB.Exec(createTableSQL)
-	return err
-}
-func (s *SQLiteDB) createTechnologyClosureTable() error {
-	const createTableSQL = `
-		CREATE TABLE IF NOT EXISTS technology_closure (
-			ancestor_name   TEXT NOT NULL,
-			descendant_name TEXT NOT NULL,
-			depth           INTEGER NOT NULL,
-			PRIMARY KEY (ancestor_name, descendant_name),
-			FOREIGN KEY (ancestor_name) REFERENCES technology_item(name),
-			FOREIGN KEY (descendant_name) REFERENCES technology_item(name)
-		) WITHOUT ROWID;
-	`
-	_, err := s.DB.Exec(createTableSQL)
-	return err
-}
-
-func (s *SQLiteDB) createTechnologyClosureIndexes() error {
-	const sqlStmt = `
-		CREATE INDEX IF NOT EXISTS idx_closure_ancestor
-		ON technology_closure(ancestor_name);
-
-		CREATE INDEX IF NOT EXISTS idx_closure_descendant
-		ON technology_closure(descendant_name);
-
-		CREATE INDEX IF NOT EXISTS idx_closure_desc_depth
-		ON technology_closure(descendant_name, depth);
-	`
-	_, err := s.DB.Exec(sqlStmt)
-	return err
-}
-
 func (s *SQLiteDB) migrate() error {
-	if err := s.creationTechnologyTable(); err != nil {
-		return err
-	}
-	if err := s.createTechnologyItemTable(); err != nil {
-		return err
-	}
-	if err := s.createTechnologyDependencyTable(); err != nil {
-		return err
-	}
-	if err := s.createTechnologyClosureTable(); err != nil {
-		return err
-	}
-	if err := s.createTechnologyClosureIndexes(); err != nil {
+	if err := s.creationItemsTable(); err != nil {
 		return err
 	}
 	return nil

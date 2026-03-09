@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 
+	"processBlueprint/internal/db/dao"
 	"processBlueprint/internal/model"
 	"processBlueprint/internal/utils"
 )
@@ -27,29 +28,32 @@ func readJSONFile(filename string) (*model.RawData, error) {
 }
 
 func DisposeRawData() {
+	dao := dao.NewDBDAO()
+
 	rawData, err := readJSONFile("rawData/data-raw-dump.json")
 	if err != nil {
 		fmt.Printf("错误: %v\n", err)
 		return
 	}
-
 	fmt.Printf("解析成功!\n")
-	// fmt.Printf("Item: %+v\n", rawData.Item)
+	// 处理物品表
 	utils.SaveToJSON("env/Item.json", rawData.Item, true)
-	utils.SaveToJSON("env/Recipe.json", rawData.Recipe, true)
-	utils.SaveToJSON("env/Technology.json", rawData.Technology, true)
-	utils.SaveToJSON("env/Resource.json", rawData.Resource, true)
-	utils.SaveToJSON("env/Fluid.json", rawData.Fluid, true)
-	utils.SaveToJSON("env/MiningDrill.json", rawData.MiningDrill, true)
-	utils.SaveToJSON("env/Furnace.json", rawData.Furnace, true)
-	utils.SaveToJSON("env/AssemblingMachine.json", rawData.AssemblingMachine, true)
-	utils.SaveToJSON("env/TransportBelt.json", rawData.TransportBelt, true)
-	utils.SaveToJSON("env/UndergroundBelt.json", rawData.UndergroundBelt, true)
-	utils.SaveToJSON("env/Splitter.json", rawData.Splitter, true)
-	utils.SaveToJSON("env/Pipe.json", rawData.Pipe, true)
-	utils.SaveToJSON("env/Inserter.json", rawData.Inserter, true)
-	utils.SaveToJSON("env/Beacon.json", rawData.Beacon, true)
-	utils.SaveToJSON("env/Lab.json", rawData.Lab, true)
-	utils.SaveToJSON("env/Roboport.json", rawData.Roboport, true)
-	utils.SaveToJSON("env/Container.json", rawData.Container, true)
+	dao.InsertItemsTable(rawData.Item)
+
+	// utils.SaveToJSON("env/Recipe.json", rawData.Recipe, true)
+	// utils.SaveToJSON("env/Technology.json", rawData.Technology, true)
+	// utils.SaveToJSON("env/Resource.json", rawData.Resource, true)
+	// utils.SaveToJSON("env/Fluid.json", rawData.Fluid, true)
+	// utils.SaveToJSON("env/MiningDrill.json", rawData.MiningDrill, true)
+	// utils.SaveToJSON("env/Furnace.json", rawData.Furnace, true)
+	// utils.SaveToJSON("env/AssemblingMachine.json", rawData.AssemblingMachine, true)
+	// utils.SaveToJSON("env/TransportBelt.json", rawData.TransportBelt, true)
+	// utils.SaveToJSON("env/UndergroundBelt.json", rawData.UndergroundBelt, true)
+	// utils.SaveToJSON("env/Splitter.json", rawData.Splitter, true)
+	// utils.SaveToJSON("env/Pipe.json", rawData.Pipe, true)
+	// utils.SaveToJSON("env/Inserter.json", rawData.Inserter, true)
+	// utils.SaveToJSON("env/Beacon.json", rawData.Beacon, true)
+	// utils.SaveToJSON("env/Lab.json", rawData.Lab, true)
+	// utils.SaveToJSON("env/Roboport.json", rawData.Roboport, true)
+	// utils.SaveToJSON("env/Container.json", rawData.Container, true)
 }
