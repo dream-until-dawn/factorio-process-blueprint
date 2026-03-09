@@ -53,11 +53,16 @@ func (d *DBDAO) InsertItemsTable(items map[string]rawDataModels.Item) error {
 
 		// 处理指针字段
 		icon := ""
-		name_zh := ""
 		if item.Icon != nil {
 			imgName := utils.ExtractNameFromPath(*item.Icon)
 			icon = fmt.Sprintf("https://wiki.factorio.com/images/thumb/%s.png/32px-%s.png", imgName, imgName)
-			name_zh = fmt.Sprintf("https://wiki.factorio.com/%s/zh", imgName)
+		}
+
+		name_zh := ""
+		if item.LocalisedName != nil {
+			name_zh = utils.FlattenToString(*item.LocalisedName)
+		} else {
+			name_zh = fmt.Sprintf("item-name.%s", item.Name)
 		}
 
 		hidden := 0
